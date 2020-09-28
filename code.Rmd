@@ -1,0 +1,71 @@
+---
+title: "code"
+author: "YIFAN XU"
+date: "2020/9/28"
+output: html_document
+---
+
+```{r}
+library(opendatatoronto)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(skimr)
+package1 <- show_package('64b54586-6180-4485-83eb-81e8fae3b8fe')
+package1
+resources1 <- list_package_resources(("64b54586-6180-4485-83eb-81e8fae3b8fe"))
+
+datastore_resources1 <- filter(resources1, tolower(format) %in% c('csv', 'geojson'))
+ 
+data <- filter(datastore_resources1, row_number()==1) %>% get_resource()
+data
+head(data)
+data_focus <- data %>%
+  select('Age Group','Source of Infection') 
+get_age_group <- table(data$`Age Group`)
+get_age_group
+age <- c("19 and younger","20 to 29 Years","30 to 39 Years","40 to 49 Years","50 to 59 Years","60 to 69 Years","70 to 79 Years"," 80 to 89 Years","90 and older")
+number <- c(1311,3049,2724,2416,2720,1813,1133,1557,1116)
+dataframe_age <- data.frame( Age = age, number = number) 
+
+barplotage <- ggplot(dataframe_age,  aes(x= Age, y = number)) + geom_bar(stat="identity",position=position_dodge(0.4),width=0.3,fill ="light blue")  +  theme_bw() + scale_x_discrete(label=abbreviate) +  labs(x = "Age Group    (3t3Y: 30 to 39 years etc.,)",
+       y = "Number of infected people",
+       title = "Figure1: Age Distribution of COVID-19 Infection Cases in Toronto",
+       caption = "Source: Toronto Public Health, 2020.") + geom_text(aes(label=number), vjust=-0.2, size=3)
+barplotage
+
+
+age3 <- c("Adolescents","Youths ","Middle-aged","Elders")
+number3 <- c(1311,3049+2724+2416,2720+1813,1133+1557+1116)
+dataframe_age3 <- data.frame( Age = age3, number = number3) 
+bingage3 <- ggplot(dataframe_age3, aes(x = "", y = number, fill = Age)) + geom_bar(stat = "identity", width = 0.5) + coord_polar(theta = "y") + labs(title = "Figure2: Age Group Distribution of COVID-19 Infection Cases in Toronto", caption = "Source: Toronto Public Health, 2020." )
+bingage3
+
+
+#2
+get_way_group <- table(data$`Source of Infection`)
+source <- c('Close contact', ' Community','Healthcare', 'Institutional', 'Outbreak associated', 'Pending', 'Travel', 'Unknown/Missing')
+number2 <- c(6419, 2471, 1142, 344, 5974, 70, 830, 622)
+dataframe_source<- data.frame('Source of Infection'= source, Number = number2) 
+
+
+  
+dataframe_source<- data.frame(Source = c('Close contact', 'Community','Healthcare', 'Institutional', 'Outbreak associated', 'Pending', 'Travel', 'Unknown/Missing'), Number = c(6419, 2471, 1142, 344, 5974, 70, 830, 622))
+barplotsou <-ggplot(dataframe_source,  aes(x=Source,y=Number)) + geom_bar(stat='identity',position=position_dodge(0.4),width=0.3,fill ="light blue")  +  theme_bw() +  labs(x = "Source",
+       y = "Number of infected people",
+       title = "Figure3: The Distribution of COVID-19 Infection Sources in Toronto",
+       caption = "Source: Toronto Public Health, 2020.") + geom_text(aes(label=Number), vjust=-0.2, size=3)
+barplotsou 
+  
+bingsource <- ggplot(dataframe_source, aes(x = "", y = Number, fill = Source)) + geom_bar(stat = "identity", width = 0.5) + coord_polar(theta = "y") + labs(title = "Figure4: Pie Chart of COVID-19 Infection Sources in Toronto",  caption = "Source: Toronto Public Health, 2020.")
+bingsource
+
+citation('opendatatoronto')
+citation('tidyverse')
+citation('ggplot2')
+citation()
+citation('rmarkdown')
+```
+
+
+`

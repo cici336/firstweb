@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>regression on A Hugo website</title>
+    <link>/tags/regression/</link>
+    <description>Recent content in regression on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/tags/regression/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>COVID-19 infection rate is higher among youths</title>
+      <link>/1/01/01/covid-19-infection-rate-is-higher-among-youths/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/covid-19-infection-rate-is-higher-among-youths/</guid>
+      <description>Author: Yifan Xu
+Date: 2020.09.25
+Abstract The current new coronavirus has swept the world for more than half a year, and there is still an increase of more than 1,000 cases in Canada everyday. In this paper, we explored the dataset about COVID-19 Cases in Toronto, which is a non-probability survey published by Toronto Public Health. We found that young people have a higher infection rate of COVID-19, and we also found the main source of infection is close contact.</description>
+    </item>
+    
+  </channel>
+</rss>

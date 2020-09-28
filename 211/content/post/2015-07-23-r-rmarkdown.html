@@ -1,0 +1,128 @@
+---
+title: "COVID-19 infection rate is higher among youths"
+author: "Yifan Xu"
+date: 2020.09.25
+categories: ["R"]
+tags: ["R Markdown", "plot", "regression"]
+---
+
+
+
+<p>Author: Yifan Xu<br />
+Date: 2020.09.25</p>
+<div id="abstract" class="section level1">
+<h1>Abstract</h1>
+<p>The current new coronavirus has swept the world for more than half a year, and there is still an increase of more than 1,000 cases in Canada everyday. In this paper, we explored the dataset about COVID-19 Cases in Toronto, which is a non-probability survey published by Toronto Public Health. We found that young people have a higher infection rate of COVID-19, and we also found the main source of infection is close contact. This could remind people to keep the social distance and wear masks at all times, in order to reduce the chance of infection especially at the current stage of returning to work and school.</p>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>It has been half a year since the first case of new coronavirus infection was reported on January 27 in Canada. There is still a daily increase of more than 1,000 confirmed cases, and Ontario also has a large daily increase. Against the situation, we wanted to explore the susceptible age group and the common infection source. We found that close contact is a major way of virus transmission, followed by community contact. Besides, compared with middle-aged and elderly people, COVID-19 infections mostly occur in teenagers and young adults.</p>
+<p>We used the data set published by Toronto Public Health, which collects information on COVID-19 cases in Toronto. We are interested in two variables: the source of infection and age of infected people. The main method is plotting figures to determine common sources of infection as well as grouping ages to identify the susceptible population. (we used <span class="citation">@R</span> and <span class="citation">@Rmarkdown</span>)</p>
+<p>Below we will briefly introduce the variables of the data but focus on two variables we care about, then conduct the analysis to get conclusions. In the future, we hope to collect data from other parts of Canada and analyze again, so that we could test whether our conclusions are applicable or biased.</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The COVID-19 Cases in Toronto Data set counts the information on all 17,872 confirmed and probable cases in Toronto, including their demographic (eg: gender), geographic (eg: neighborhood name) and severity information (eg: currently hospitalized or not). Table in appendix shows the data of first six confirmed persons.</p>
+<p>Among 16 variables, we care about the threat of COVID-19 to people of different ages and how they are infected. Therefore we focus on ‘Age Group’ and ‘Source of Infection’.</p>
+<p>Figure1 (showing in appendix below) shows the age distribution of the infected cases. The youngest infected are 19 years or younger, and the oldest infected are older than 90. We also find that the most infected persons are between 20 and 29 years old and the least are between 70 and 80 years old. (we used <span class="citation">@tidyverse</span>)</p>
+<p>We could clearly identify the distribution is right-skewed, which means that the number of people infected with COVID-19 will decrease with age, with young people at the highest infection rate.</p>
+<p>To be more concise, we combine the age groups as: 19 and younger (Adolescents), 20-49 years old (Youths), 50-69 years old (Middle-aged) and over 70 years old (Elders), then recalculate the number of infections in each age group.</p>
+<p>The pie chart in Figure2 (showing in appendix below) shows that youths account for nearly half of the infected cases, which is much higher than teenagers and elders. (we used <span class="citation">@tidyverse</span>)</p>
+<p>Similarly, we also want to explore the source of infection. Figure 3 (showing in appendix below) indicates that most people were infected during the outbreak or due to close contact. (we used <span class="citation">@tidyverse</span>)</p>
+<p>In Figure 4 (showing in appendix below) , we can intuitively see that apart from the infection during the outbreak, close contact and community contact are two main routes of virus transmission. (we used <span class="citation">@tidyverse</span>)</p>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>We found that the age of people infected with COVID-19 in Toronto is mostly between 20 and 29. It is suggested that youths are more likely to be infected compared with middle-aged and elderly people. We also know that COVID-19 is easily transmitted through close contact and community contact among people.</p>
+<p>However, the limitations of the data set was twofold: 1) the data is extracted every Monday and released every Wednesday, which is not real-time, resulting in a deviation of the confirmed cases in a week, and 2) the age of a few confirmed cases or the source of infection is unknown, therefore those missing values will affect the accuracy of results.</p>
+</div>
+<div id="weaknesses-and-next-steps" class="section level1">
+<h1>Weaknesses and next steps</h1>
+<p>The weaknesses is that we draw the conclusion only based on the data from Toronto area, so there may be some regional biases. In the next step, we hope to explore the data set from other regions in Canada even around the world, and analyze again to ensure the conclusions are general enough.</p>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<pre class="r"><code>#code
+library(opendatatoronto)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>package1 &lt;- show_package(&#39;64b54586-6180-4485-83eb-81e8fae3b8fe&#39;)
+resources1 &lt;- list_package_resources((&quot;64b54586-6180-4485-83eb-81e8fae3b8fe&quot;))
+
+datastore_resources1 &lt;- filter(resources1, tolower(format) %in% c(&#39;csv&#39;, &#39;geojson&#39;))
+ 
+data &lt;- filter(datastore_resources1, row_number()==1) %&gt;% get_resource()
+head(data)</code></pre>
+<pre><code>## # A tibble: 6 x 18
+##    `_id` Assigned_ID `Outbreak Assoc… `Age Group` `Neighbourhood … FSA  
+##    &lt;int&gt;       &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;
+## 1 143647           1 Sporadic         50 to 59 Y… Willowdale East  M2N  
+## 2 143648           2 Sporadic         50 to 59 Y… Willowdale East  M2N  
+## 3 143649           3 Sporadic         20 to 29 Y… Parkwoods-Donal… M3A  
+## 4 143650           4 Sporadic         60 to 69 Y… Church-Yonge Co… M4W  
+## 5 143651           5 Sporadic         60 to 69 Y… Church-Yonge Co… M4W  
+## 6 143652           6 Sporadic         50 to 59 Y… Newtonbrook West M2R  
+## # … with 12 more variables: `Source of Infection` &lt;chr&gt;, Classification &lt;chr&gt;,
+## #   `Episode Date` &lt;chr&gt;, `Reported Date` &lt;chr&gt;, `Client Gender` &lt;chr&gt;,
+## #   Outcome &lt;chr&gt;, `Currently Hospitalized` &lt;chr&gt;, `Currently in ICU` &lt;chr&gt;,
+## #   `Currently Intubated` &lt;chr&gt;, `Ever Hospitalized` &lt;chr&gt;, `Ever in
+## #   ICU` &lt;chr&gt;, `Ever Intubated` &lt;chr&gt;</code></pre>
+<pre class="r"><code>get_age_group &lt;- table(data$`Age Group`)
+age &lt;- c(&quot;19 and younger&quot;,&quot;20 to 29 Years&quot;,&quot;30 to 39 Years&quot;,&quot;40 to 49 Years&quot;,&quot;50 to 59 Years&quot;,&quot;60 to 69 Years&quot;,&quot;70 to 79 Years&quot;,&quot; 80 to 89 Years&quot;,&quot;90 and older&quot;)
+number &lt;- c(1311,3049,2724,2416,2720,1813,1133,1557,1116)
+dataframe_age &lt;- data.frame( Age = age, number = number) 
+
+barplotage &lt;- ggplot(dataframe_age,  aes(x= Age, y = number)) + geom_bar(stat=&quot;identity&quot;,position=position_dodge(0.4),width=0.3,fill =&quot;light blue&quot;)  +  theme_bw() + scale_x_discrete(label=abbreviate) +  labs(x = &quot;Age Group    (3t3Y: 30 to 39 years etc.,)&quot;,
+       y = &quot;Number of infected people&quot;,
+       title = &quot;Figure1: Age Distribution of COVID-19 Infection Cases in Toronto&quot;,
+       caption = &quot;Source: Toronto Public Health, 2020.&quot;) + geom_text(aes(label=number), vjust=-0.2, size=3)
+barplotage</code></pre>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>age3 &lt;- c(&quot;Adolescents&quot;,&quot;Youths &quot;,&quot;Middle-aged&quot;,&quot;Elders&quot;)
+number3 &lt;- c(1311,3049+2724+2416,2720+1813,1133+1557+1116)
+dataframe_age3 &lt;- data.frame( Age = age3, number = number3) 
+bingage3 &lt;- ggplot(dataframe_age3, aes(x = &quot;&quot;, y = number, fill = Age)) + geom_bar(stat = &quot;identity&quot;, width = 0.5) + coord_polar(theta = &quot;y&quot;) + labs(title = &quot;Figure2: Age Group Distribution of COVID-19 Infection Cases in Toronto&quot;, caption = &quot;Source: Toronto Public Health, 2020.&quot; )
+bingage3</code></pre>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<pre class="r"><code>#2
+get_way_group &lt;- table(data$`Source of Infection`)
+source &lt;- c(&#39;Close contact&#39;, &#39; Community&#39;,&#39;Healthcare&#39;, &#39;Institutional&#39;, &#39;Outbreak associated&#39;, &#39;Pending&#39;, &#39;Travel&#39;, &#39;Unknown/Missing&#39;)
+number2 &lt;- c(6419, 2471, 1142, 344, 5974, 70, 830, 622)
+dataframe_source&lt;- data.frame(&#39;Source of Infection&#39;= source, Number = number2) 
+
+
+  
+dataframe_source&lt;- data.frame(Source = c(&#39;Close contact&#39;, &#39;Community&#39;,&#39;Healthcare&#39;, &#39;Institutional&#39;, &#39;Outbreak associated&#39;, &#39;Pending&#39;, &#39;Travel&#39;, &#39;Unknown/Missing&#39;), Number = c(6419, 2471, 1142, 344, 5974, 70, 830, 622))
+barplotsou &lt;-ggplot(dataframe_source,  aes(x=Source,y=Number)) + geom_bar(stat=&#39;identity&#39;,position=position_dodge(0.4),width=0.3,fill =&quot;light blue&quot;)  +  theme_bw() +  labs(x = &quot;Source&quot;,
+       y = &quot;Number of infected people&quot;,
+       title = &quot;Figure3: The Distribution of COVID-19 Infection Sources in Toronto&quot;,
+       caption = &quot;Source: Toronto Public Health, 2020.&quot;) + geom_text(aes(label=Number), vjust=-0.2, size=3)
+barplotsou </code></pre>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<pre class="r"><code>bingsource &lt;- ggplot(dataframe_source, aes(x = &quot;&quot;, y = Number, fill = Source)) + geom_bar(stat = &quot;identity&quot;, width = 0.5) + coord_polar(theta = &quot;y&quot;) + labs(title = &quot;Figure4: Pie Chart of COVID-19 Infection Sources in Toronto&quot;,  caption = &quot;Source: Toronto Public Health, 2020.&quot;)
+bingsource</code></pre>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-4.png" width="672" /></p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<ul>
+<li><p>Toronto Public Health. Sept 23, 2020. About COVID-19 Cases in Toronto. <a href="https://open.toronto.ca/dataset/covid-19-cases-in-toronto/" class="uri">https://open.toronto.ca/dataset/covid-19-cases-in-toronto/</a></p></li>
+<li><p>Sharla Gelfand (2020). opendatatoronto: Access the City of Toronto Open Data Portal. R package version 0.1.3.
+<a href="https://CRAN.R-project.org/package=opendatatoronto" class="uri">https://CRAN.R-project.org/package=opendatatoronto</a></p></li>
+<li><p>Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686,
+<a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a></p></li>
+<li><p>H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.</p></li>
+<li><p>Elin Waring, Michael Quinn, Amelia McNamara, Eduardo Arino de la Rubia, Hao Zhu and Shannon Ellis (2020).</p></li>
+<li><p>R Core Team (2020). R: A language and environment for statistical computing. R Foundation for Statistical
+Computing, Vienna, Austria. URL <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</p></li>
+<li><p>JJ Allaire and Yihui Xie and Jonathan McPherson and Javier Luraschi and Kevin Ushey and Aron Atkins and Hadley Wickham and Joe Cheng and Winston Chang and Richard Iannone (2020). rmarkdown: Dynamic Documents for R. R
+package version 2.3. URL <a href="https://rmarkdown.rstudio.com" class="uri">https://rmarkdown.rstudio.com</a>.</p></li>
+</ul>
+</div>
